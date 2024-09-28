@@ -1,5 +1,6 @@
 package com.example.lab0
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -96,179 +97,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AboutScreen(onThemeSwitch: () -> Unit = {}, isDarkTheme: Boolean = true) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    //------------------------Main Container------------------------
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CenterAlignedTopAppBar(
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = Color.Transparent,
-                titleContentColor = MaterialTheme.colorScheme.onBackground,
-            ),
-            title = {
-                Text(
-                    stringResource(R.string.about_title),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = { }) {
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowLeft,
-                        contentDescription = "arrow back"
-                    )
-                }
-            },
-            scrollBehavior = scrollBehavior,
-        )
-
-        //------------------------Body Container------------------------
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            //------------------------AppName+Version Container------------------------
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = stringResource(id = R.string.app_name),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 36.dp)
-                )
-                Text(
-                    text = "Version " + stringResource(id = R.string.app_version),
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-            }
-
-            //------------------------List Container------------------------
-            Box(contentAlignment = Alignment.Center) {
-                LazyColumn(
-                    contentPadding = PaddingValues(2.dp),
-                    verticalArrangement = Arrangement.spacedBy(7.dp)
-                ) {
-                    item { HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp)) }
-                    item {
-                        CategoryItem(
-                            title = "Privacy",
-                            icon = Icons.Outlined.Lock,
-                            onClick = { /*TODO*/ })
-                    }
-                    item {
-                        CategoryItem(
-                            title = "Contact Support",
-                            icon = Icons.Outlined.Call,
-                            onClick = { /*TODO*/ })
-                    }
-                    item { HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp)) }
-
-                    item {
-                        CategoryItem(
-                            title = "Send Feedback",
-                            icon = Icons.Outlined.Email,
-                            onClick = { /*TODO*/ })
-                    }
-                    item {
-                        CategoryItem(
-                            title = "Open in Google Play",
-                            icon = Icons.Outlined.ShoppingCart,
-                            onClick = { /*TODO*/ })
-                    }
-                    item {
-                        CategoryItem(
-                            title = "Rate us",
-                            icon = Icons.Outlined.Star,
-                            onClick = { /*TODO*/ })
-                    }
-                    item { HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp)) }
-
-                }
-            }
-
-//            Spacer(modifier = Modifier.weight(1f))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(40.dp, 15.dp, 40.dp, 15.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                val iconTint = if (isDarkTheme) Color.White else Color.Black
-                val iconSize = 35.dp
-                Image(
-                    painter = painterResource(id = R.drawable.ic_telegram),
-                    contentDescription = "telegram icon",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(iconSize),
-                    colorFilter = tint(iconTint)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_like),
-                    contentDescription = "like icon",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(iconSize),
-                    colorFilter = tint(iconTint)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_github),
-                    contentDescription = "github icon",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(iconSize),
-                    colorFilter = tint(iconTint)
-                )
-            }
-//            FilledIconToggleButton(
-//                checked = isDarkTheme,
-//                modifier = Modifier.align(Alignment.End),
-//                onCheckedChange = { onThemeSwitch() }) {
-//                if (isDarkTheme) {
-//                    Icon(Icons.Filled.Lock, contentDescription = "Theme toggle")
-//                } else {
-//                    Icon(Icons.Outlined.Lock, contentDescription = "Theme toggle")
-//                }
-//            }
-        }
-    }
-}
-
-@Composable
-fun CategoryItem(title: String, icon: ImageVector, onClick: () -> Unit) {
-    Surface(
-        onClick = onClick,
-        shape = MaterialTheme.shapes.medium,
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(25.dp)
-        ) {
-            Icon(
-                icon, contentDescription = null, modifier = Modifier.size(28.dp),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-            Text(title, style = MaterialTheme.typography.bodyLarge)
-        }
-    }
-}
 
 
 @Composable
@@ -280,9 +109,14 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Landscape Preview",
+    widthDp = 640, // Ширина экрана в dp для ландшафтного режима
+    heightDp = 360, // Высота экрана в dp для ландшафтного режима
+    uiMode = Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
-fun Preview() {
+fun LandscapePreview() {
     AppTheme(darkTheme = true) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
